@@ -23,7 +23,7 @@ Moreover, qualitatively I found that some of the training data seem to be miscla
 
 ## Confusion matrices
 of the three randomized experiments of different models (order: [ada,babbage,curie,davinci]):
-Subset 1:
+Subset 1:  
 [[19, 31],  
   [2, 48]],  
 [[20, 30],  
@@ -33,7 +33,7 @@ Subset 1:
 [[47,  3],  
  [23, 27]]  
 
-Subset 2:
+Subset 2:  
 [[16, 34],  
   [2, 48]],  
 [[18, 32],  
@@ -43,4 +43,4 @@ Subset 2:
 [[46,  4],  
  [26, 24]]  
 
-Subset 3:
+Subset 3:  
