@@ -21,7 +21,7 @@ I have no theory the explain why the smaller models are so biased towards negati
 
 Moreover, qualitatively I found that some of the training data seem to be misclassified. For example I found an entry, that clearly sounded like an ad and even contained #Werbung (german: advertisment), but was not an ad according to training data. I found similar cases also for english posts.
 
-Future Experiments
+## Future Experiments
 Just use the Encoder (embedding) and try a) random forrest b) a NN
 Use the Fine-Tuning API (does it only fine-tune the decoder, or also the encoder?)
 Scale
