@@ -25,7 +25,7 @@ Moreover, qualitatively I found that some of the training data seem to be miscla
 of the three randomized experiments of different models (order: [ada,babbage,curie,davinci]):
 Subset 1:
 [[19, 31],
-  [2, 48]],
+  [2, 48]],\n
 [[20, 30],
  [12, 38]],
 [[48,  2],
