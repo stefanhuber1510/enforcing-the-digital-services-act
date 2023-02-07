@@ -21,8 +21,14 @@ I have no theory the explain why the smaller models are so biased towards negati
 
 Moreover, qualitatively I found that some of the training data seem to be misclassified. For example I found an entry, that clearly sounded like an ad and even contained #Werbung (german: advertisment), but was not an ad according to training data. I found similar cases also for english posts.
 
+Future Experiments
+Just use the Encoder (embedding) and try a) random forrest b) a NN
+Use the Fine-Tuning API (does it only fine-tune the decoder, or also the encoder?)
+Scale
+Consider images
+
 ## Confusion matrices
-of the three randomized experiments of different models (order: [ada,babbage,curie,davinci]):
+of the three randomized experiments of different models (order: [ada,babbage,curie,davinci]):  
 Subset 1:  
 [[19, 31],  
   [2, 48]],  
@@ -32,7 +38,7 @@ Subset 1:
  [40, 10]],  
 [[47,  3],  
  [23, 27]]  
-
+  
 Subset 2:  
 [[16, 34],  
   [2, 48]],  
@@ -42,5 +48,13 @@ Subset 2:
  [46,  4]],  
 [[46,  4],  
  [26, 24]]  
-
+  
 Subset 3:  
+[[13, 37],  
+ [ 7, 43]]),    
+[[14, 36],  
+ [16, 34]],  
+[[47,  3],  
+ [40, 10]],  
+[[48,  2],  
+ [19, 31]]  
