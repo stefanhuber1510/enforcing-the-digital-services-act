@@ -25,22 +25,22 @@ Moreover, qualitatively I found that some of the training data seem to be miscla
 of the three randomized experiments of different models (order: [ada,babbage,curie,davinci]):
 Subset 1:
 [[19, 31],
-  [2, 48]]),
+  [2, 48]],
 [[20, 30],
- [12, 38]]),
+ [12, 38]],
 [[48,  2],
- [40, 10]]),
+ [40, 10]],
 [[47,  3],
- [23, 27]])]
+ [23, 27]]
 
 Subset 2:
-[array([[16, 34],
-        [ 2, 48]]),
- array([[18, 32],
-        [15, 35]]),
- array([[49,  1],
-        [46,  4]]),
- array([[46,  4],
-        [26, 24]])]
+[[16, 34],
+  [2, 48]],
+[[18, 32],
+ [15, 35]],
+[[49,  1],
+ [46,  4]],
+[[46,  4],
+ [26, 24]]
 
 Subset 3:
