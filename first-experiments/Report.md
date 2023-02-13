@@ -6,7 +6,7 @@ As a first Series of Experiments, I asses the few-shot performance without fine-
 2. I let the models [text-ada-001, text-babbage-001, text-curie-001, text-davinci-002] classify them using the following prompt with 0 Temperature. Note: I the API reuqests to text-davinci-003 didn't work. But it shouldn't make a difference performance wise anyways.
 3. I use the following prompt:
 """
-f"Judge whether it is likely that the following caption comes from a post that has been sponsored. Try to aim for a 50:50 distribution between True and False.\n\n Post: 'aaaa meu look de hoje é da @cea_brasil ❤️ patrocinadora e dona do look oficial do Rock in Rio! Aproveitem pra acompanhar o perfil da C&A pra ver todos os lookinhos maravilhosos! Amo muito! ❤️'\n Sponsored (True/False): True\n\n Post: 'side by side ~ sisters ❤️'\n Sponsored (True/False): True\n\n Post:{txt}\n Sponsored (True/False):"
+f"Judge whether it is likely that the following caption comes from a post that has been sponsored. Try to aim for a 50:50 distribution between True and False.\n\n Post: 'aaaa meu look de hoje é da @cea_brasil ❤️ patrocinadora e dona do look oficial do Rock in Rio! Aproveitem pra acompanhar o perfil da C&A pra ver todos os lookinhos maravilhosos! Amo muito! ❤️'\n Sponsored (True/False): True\n\n Post: 'side by side ~ sisters   '\n Sponsored (True/False): True\n\n Post:{txt}\n Sponsored (True/False):"
 """
 4. I repeat the Experiment with new samples 2 more times
 
@@ -22,9 +22,8 @@ I have no theory the explain why the smaller models are so biased towards negati
 Moreover, qualitatively I found that some of the training data seem to be misclassified. For example I found an entry, that clearly sounded like an ad and even contained #Werbung (german: advertisment), but was not an ad according to training data. I found similar cases also for english posts.
 
 Future Experiments
-Just use the Encoder (embedding) and try a) random forrest b) a NN
+Just use the Encoder only (embedding) and try a) random forrest b) a NN
 Use the Fine-Tuning API (does it only fine-tune the decoder, or also the encoder?)
-Scale
 Consider images
 
 ## Confusion matrices
