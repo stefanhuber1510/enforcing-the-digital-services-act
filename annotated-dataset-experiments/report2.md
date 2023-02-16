@@ -1,11 +1,3 @@
-qualitative findings
-"label" is what the law students reported, 
-zero shot performance decent
-
-
-run over absent period with catch err
-switch token to petra's
-
 ## Overview
 In this experiment, I assess the few-shot performance without fine-tuning of the currently best model from openai available via API on the labeled dataset.
 
@@ -48,3 +40,7 @@ Broadly see the last report for interpretation. 84% without any training seems l
 2. Just use the Encoder (embedding) and try a) random forrest b) a NN
 3. Scale
 4. Consider images
+
+## Note to me
+catch server errs
+switch token to petra's
