@@ -41,6 +41,6 @@ Broadly see the last report for interpretation. 84% without any training seems l
 3. Scale
 4. Consider images
 
-## Note to me
+## Note to myself
 catch server errs
 switch token to petra's
