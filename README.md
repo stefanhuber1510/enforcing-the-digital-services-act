@@ -1,1 +1,1 @@
-# check the first experiments folder
+# check the "annotated datasets folder"
