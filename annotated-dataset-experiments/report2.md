@@ -25,6 +25,16 @@ Might the following post have been sponsored?
 **Quantitative**: The precision is 83.3% for the false predictions and and 86.7% for the true predictions, resulting in an overall accuracy of 84.1% due to the greater weight of the false labels. The whole classification report and the confusion matrix is in the appendix of this document. It is important to note that again in the confusion matrices True and False are flipped, i.e. a non-Ad post (is_ad=False) that is correctly predicted as such is reflected in the left upper number.
 Due to repeating server crashes, I end up having it executed only on 1046 of the 1210 samples, but given that the omitted samples are random I don't expect this to significantly impact the performance metrics.
 
+Performance report:
+              precision    recall  f1-score   support
+
+       False       0.87      0.62      0.72       349
+        True       0.83      0.95      0.89       697
+
+    accuracy                           0.84      1046
+   macro avg       0.85      0.79      0.81      1046
+weighted avg       0.84      0.84      0.83      1046
+
 **Qualitative Findings**:
 1. The labels are not a perfect ground truth. For example there are 9 instances where the post has disclosures, qualitatively judged clearly is an advertisment but has "False" has label. There is good reason to assume that these 9 are not the only posts labelled as False despite being ads and potentially there are some posts where this is true the other way round too. The important implication for model performance is that the true model performance is likely higher than reported (assuming that the model is more likely to have a mismatch with the labels, if the label is wrong than an accidental match with the labels because it did the same mistake as the labeler).
 
@@ -44,3 +54,4 @@ Broadly see the last report for interpretation. 84% without any training seems l
 ## Note to myself
 catch server errs
 switch token to petra's
+
