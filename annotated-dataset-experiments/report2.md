@@ -26,6 +26,7 @@ Might the following post have been sponsored?
 Due to repeating server crashes, I end up having it executed only on 1046 of the 1210 samples, but given that the omitted samples are random I don't expect this to significantly impact the performance metrics.
 
 Performance report:
+
               precision    recall  f1-score   support
 
        False       0.87      0.62      0.72       349
