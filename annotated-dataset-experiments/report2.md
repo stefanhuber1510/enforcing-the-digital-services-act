@@ -33,8 +33,8 @@ Performance report:
         True       0.83      0.95      0.89       697
 
     accuracy                           0.84      1046
-    macro avg       0.85      0.79      0.81      1046
-    weighted avg       0.84      0.84      0.83      1046
+   macro avg       0.85      0.79      0.81      1046
+weighted avg       0.84      0.84      0.83      1046
 
 **Qualitative Findings**:
 1. The labels are not a perfect ground truth. For example there are 9 instances where the post has disclosures, qualitatively judged clearly is an advertisment but has "False" has label. There is good reason to assume that these 9 are not the only posts labelled as False despite being ads and potentially there are some posts where this is true the other way round too. The important implication for model performance is that the true model performance is likely higher than reported (assuming that the model is more likely to have a mismatch with the labels, if the label is wrong than an accidental match with the labels because it did the same mistake as the labeler).
