@@ -1,1 +1,1 @@
-# check the "annotated datasets folder"
+# check the "2-annotated-datasets-folder"
