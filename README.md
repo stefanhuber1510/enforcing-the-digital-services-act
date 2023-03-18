@@ -1,4 +1,7 @@
 # Progress update:
-With only 2 training examples (no fine-tuning), I got 84% accuracy, with the model being correct in 83.3% of its "True"-predictions and 86.7% of its "False" predictions on the labelled dataset.
-
-for details check the "2-annotated-datasets-folder"
+GPT-4 classifications are executed in 5-chatGPT-self-correction/_executing-experiment.ipynb .
+The results are in df_results.pkl
+I added 3 columns: 
+1. The GPT-4 labels as boolean
+2. The GPT-4 labels as string with 4 options (for very uncertain cases)
+3. The GPT-4 explanations for the decision
