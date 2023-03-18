@@ -2,11 +2,9 @@ import pandas as pd
 import openai
 import time
 
-def gptclassifier(df,system_message, template, examples, timer_frequency):
+def gptclassifier(df,system_message, template, examples, timer_frequency, completions):
 
-    completions = []
-    i=0
-    
+    i=0    
     for txt in df.loc[:,["caption","username"]].iterrows():
         
         # timer
