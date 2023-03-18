@@ -1,5 +1,5 @@
 # Progress update:
-GPT-4 classifications are executed in 5-chatGPT-self-correction/_executing-experiment.ipynb .
+GPT-4 classifications are executed in 5-GPT-4-classification-&-explanations/_executing-experiment.ipynb .
 The results are in df_results.pkl
 I added 3 columns: 
 1. The GPT-4 labels as boolean
