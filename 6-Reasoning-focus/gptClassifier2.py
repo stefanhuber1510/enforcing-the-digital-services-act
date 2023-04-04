@@ -2,7 +2,7 @@ import pandas as pd
 import openai
 import time
 
-def gptclassifier(df, messages, completions, timer_frequency):
+def gptclassifier(df, messages, completions, timer_frequency, model="gpt-3.5-turbo"):
 
     i=0    
     for txt in df.loc[:,["caption","username"]].iterrows():
@@ -17,7 +17,7 @@ def gptclassifier(df, messages, completions, timer_frequency):
         
         # try except to prevent openAIs limits
         try:
-            response = openai.ChatCompletion.create(model="gpt-3.5-turbo",
+            response = openai.ChatCompletion.create(model=model,
                                                 messages=messages)
             completions.append(response["choices"][0]["message"]["content"])
         except Exception as err:
