@@ -13,7 +13,7 @@ def gptclassifier(df, messages, completions, timer_frequency):
             print(f"Counter at {i}")
 
         messages.append(
-                {"role": "user", "content": f"Post: '{txt[1]['caption']}'. User: @{txt[1]['username']}"})
+                {"role": "user", "content": f"Post: '{txt[1]['caption']}'. User: @{txt[1]['username']} \nkeep the reasoning very concise:"})
         
         # try except to prevent openAIs limits
         try:
@@ -44,4 +44,4 @@ def gptclassifier(df, messages, completions, timer_frequency):
                                          or (response.endswith("Ambiguous")))
                           else "Likely not sponsored." if ((response.endswith("not sponsored.")) or (response.endswith("not sponsored")))
                           else response for response in completions]
-    return completions, four_labels
+    return four_labels, completions
