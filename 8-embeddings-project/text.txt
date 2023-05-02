@@ -1,0 +1,420 @@
+Closing the Loop: Testing ChatGPT to Generate
+Model Explanations to Improve Human
+Labelling of Sponsored Content on Social Media
+No Author Given
+No Institute Given
+Abstract. Regulators worldwide are increasingly focusing on transparency
+in advertising, particularly in influencer marketing. Instruments such as
+the Unfair Commercial Practices Directive (UCPD) in the European
+Union, or Section 5 of the Federal Trade Commission Act (15 USC 45)
+impose obligations to disclose advertising conspicuously. Yet enforcing
+these obligations has proven to be highly problematic, particularly given
+the sheer scale of the influencer market, which is expected to reach $21.1
+billion in 2023. The task of automatically detecting sponsored content
+aims to enable the monitoring and enforcement of such regulations at
+scale. Work in this field primarily frames this problem as a machine
+learning task, focusing on developing models that achieve high classifica-
+tion performance in detecting ads. Many machine learning tasks rely on
+ground truth information from human data annotation. However, inter-
+annotator agreement is often low, leading to inconsistent labels that hin-
+der the reliability of models. To improve annotation accuracy and, thus,
+the detection of sponsored content, we propose augmenting the anno-
+tation process with AI-generated explanations in the form of text and
+tokens or phrases identified as relevant features. Our experiments show
+that this approach consistently improves inter-annotator agreement and
+annotation accuracy. Moreover, our survey of user experience in the an-
+notation task indicates that the explanations improve the annotators’
+confidence and facilitate the process. Ultimately, our proposed methods
+can lead to more transparency and alignment with regulatory require-
+ments in sponsored content detection.
+Keywords: sponsored content detection · human-AI collaboration · le-
+gal compliance · social media
+1 Introduction
+The rise of influencers, content creators monetising online content through native
+advertising, has drastically changed the landscape of advertising on social me-
+dia [8,13]. This shift has increased concern about hidden advertising practices
+that might harm social media users. For decades, advertising rules have been
+applied to legacy media in such a way to separate commercial communication
+from other type of content. The main rationale behind rules relating to man-
+dated disclosures has been that hidden advertising leads to consumer deception.
+2 No Author Given
+Despite the increasing legal certainty that native advertising such as influencer
+marketing needs to be clearly disclosed, monitoring and enforcing compliance
+remains a significant challenge.
+The task of automatically detecting sponsored content aims to enable the
+monitoring and enforcement of such regulations at scale. For instance, in the
+United Kingdom, the Competition and Markets Authority is one of the enforce-
+ment agencies tasked with the monitoring of influencer disclosures on social
+media, which is done using some automated techniques developed by their in-
+ternal data unit. In published scholarship on the topic, most existing methods
+frame the problem as a machine learning task, focusing on developing models
+with high classification performance. The success of these models depends on
+the quality and consistency of human-annotated data, which often suffer from
+low inter-annotator agreement, compromising the reliability and performance
+of the models [9,25]. Moreover, fully-automated approaches are insufficient for
+regulatory compliance, where human decision-makers are ultimately responsible
+for imposing fines or pursuing further investigations.
+To bridge this gap, we propose a novel annotation framework that augments
+the annotation process with AI-generated explanations, which, to our knowl-
+edge, is the first attempt in this domain. These explanations, presented as text
+and tokens or phrases identified as relevant features, aim to improve annota-
+tion accuracy and inter-annotator agreement. Our experiments show that our
+proposed framework consistently increases agreement metrics and annotation
+accuracy, thus leading to higher data quality and more reliable and accurate
+models for detecting sponsored content. Critically, our work tackles the need for
+explainability in AI tools used for regulatory compliance, ensuring that human
+decision-makers can better understand and trust the outputs of these models.
+This is particularly important for market surveillance activities, which have not
+yet caught up with the transparency and accountability issues that have been
+at the core of discussions around individual surveillance.
+2 Related Work
+Sponsored content detection has primarily been studied as a text classification
+problem. Works in this field generally train models in a semi-supervised setting,
+using posts disclosed as ads with specific hashtags as weak labels. Generally,
+there is a lack of focus on evaluating model performance with labelled data. Most
+works collect their own datasets and do not describe whether (and how) data is
+annotated. Since social media platforms typically do not allow data sharing, there
+are no standardised datasets for evaluating the task; thus, comparing results is
+challenging. Furthermore, the absence of labelled data for evaluation affects the
+reliability of results, as models are often not tested on undisclosed ads.
+From a technical perspective, previous studies have employed traditional ma-
+chine learning models with basic text features [7,27], neural networks with text
+embeddings [30], and multimodal deep learning architectures combining text,
+image, and network features [17,16]. In this paper we experiment with some
+Using Model Explanations to Improve Labelling of Sponsored Content 3
+of these models in addition to chatGPT and GPT-4 for classification. Although
+peer-reviewed research is limited due to chatGPT’s recent release, some technical
+reports have found chatGPT to achieve state-of-the-art performance in several
+text classification tasks [22,28,12].
+Interdisciplinary research combining computational methods with fields such
+as communication and media studies and law has focused on identifying influ-
+encers, describing their characteristics, and mapping the prevalence of their dis-
+closures [20,2,4]. In the context of using explanations to improve data labelling or
+decision-making, research has explored AI-human collaboration and investigated
+the optimal integration of explanations for human interaction [18,21,6,26]. To the
+best of our knowledge, our paper is the first to propose using AI-generated expla-
+nations to improve the detection of sponsored content, bridging the gap between
+explainable AI and regulatory compliance in the context of sponsored content
+on social media.
+3 Experimental Setup
+This section describes the dataset we use, and how we selected the model for
+sponsored content detection, generated explanations to augment the annotation
+process, and designed the annotation task and the user-experience survey.
+3.1 Data Collection
+We collected and curated our own dataset of Instagram posts for this study. We
+manually selected 100 influencers based in the United States using the influencer
+discovery platform Heepsy1. We selected 50 micro-influencers (between 100k
+and 600k followers) and 50 mega-influencers (over 600k followers). Then, we
+collected all available data and metadata from all posts for each account using
+CrowdTangle2, the Meta platform that provides access to social media data for
+(among others) academic purposes. Our dataset includes 294.6k posts, 66.1%
+from mega-influencers and 33.9% from micro-influencers. CrowdTangle’s Terms
+of Service do not allow (re)sharing datasets that include user-generated content,
+and thus we cannot share the full dataset. We will however make the list of the
+accounts and posts publicly available ids.
+3.2 Detecting Sponsored Content
+In the first step of our experimental setup, we aim to select the most suitable
+sponsored content classifier for generating explanations. We evaluate three previ-
+ously proposed models: (1) a logistic regression classifier with TF-IDF features,
+analogous to the approach used by [7,27], (2) a pre-trained BERT model fine-
+tuned for our task, comparable to [17,30], and (3) OpenAI’s chatGPT (GPT-
+3.5-turbo as of March 2022), which achieves state-of-the-art results in various
+1 https://heepsy.com
+2 https://www.crowdtangle.com/
+4 No Author Given
+text classification tasks [12,22]. We generate GPT predictions using OpenAI’s
+API.
+To evaluate the models’ performance, we select a sample from our original
+dataset and split the data into training and test sets by year, using 2022 for
+testing and all prior posts for training. This division simulates a real-world sce-
+nario where a model is deployed and used to classify unseen data for regulatory
+compliance. By ensuring no temporal overlap between the sets, we prevent the
+model from learning features correlated with a specific period. Given the high
+imbalance in the data (only 1.72% of posts are disclosed as sponsored), we ap-
+ply the random undersampling approach proposed by Zarei et al. (2020) [30] to
+balance the data. We include all disclosed posts (n) and randomly sample (2 ∗ n)
+posts without disclosures as negative examples. We allocate 90% of the balanced
+data before 2022 to training and the remaining 10% to validation. We use all
+data in 2022 as the test set.
+Additionally, we labelled a sample of the test set to evaluate the model’s
+performance in detecting undisclosed ads. Four annotators labelled 1283 posts
+in total, with a sample of 50 posts labelled by all annotators for calculating
+agreement metrics. The inter-annotator agreement was 52% in absolute agree-
+ment and 53.37 in α, indicating moderate agreement. 654 posts were labelled
+as sponsored (50.97%) and 629 as non-sponsored (49.03%). 91.59% of the spon-
+sored posts did not have disclosures – i.e., they were identified as undisclosed
+ads.
+We employ a semi-supervised approach to train the models, treating dis-
+closed sponsored posts as positive labels for the sponsored class. We consider
+#ad, #advertisement, #spons, and #sponsored as ad disclosures. We then re-
+move disclosures from the posts to prevent models from learning a direct map-
+ping between disclosure and sponsorship. We train the logistic regression model
+using TF-IDF features extracted from word-level n-grams from the captions
+(unigrams, bigrams, and trigrams). For the BERT-based model, we use the bert-
+base-multilingual-uncased pre-trained model weights from HuggingFace [29]. We
+fine-tuned the BERT-based model for three epochs using the default hyperpa-
+rameters (specified in Devlin et al. (2019) [5]).
+We apply various prompt-engineering techniques to enhance GPT’s predic-
+tions. As we use the same methodology for generating explanations, we provide
+a detailed description in the following subsection. We evaluate all models us-
+ing F1 for the positive and negative classes, Macro F1 (the simple average of
+both classes) and Accuracy in detecting undisclosed ads – a critical metric for
+determining the models’ effectiveness in detecting sponsored posts without ex-
+plicit disclosures, which is ultimately our goal. Table 1 presents the classification
+metrics for the three models, calculated based on the labelled test set.
+GPT-3.5 outperforms the other models in Macro F1 and accuracy in detect-
+ing undisclosed ads. Logistic regression (Log Reg) and BERT achieve signifi-
+cantly low accuracy, suggesting their inability to identify undisclosed sponsored
+posts effectively. The difference in Macro F1 is smaller, highlighting that relying
+solely on this metric for evaluating models may not accurately reflect their actual
+Using Model Explanations to Improve Labelling of Sponsored Content 5
+Table 1. Performance of the different models on the labelled test set. Acc represents
+the models’ accuracy in detecting undisclosed ads.
+Model Pos F1 Neg F1 Macro F1 Acc
+Log Reg 45.33 66.50 55.92 28.71
+BERT 29.30 68.84 49.07 10.85
+GPT-3.5 76.09 63.93 70.01 88.98
+performance. Therefore, having high-quality labelled data, including undisclosed
+ads, is crucial for proper evaluation.
+BERT’s inferior performance compared to Log Reg could be due to a few
+factors. Being pre-trained on longer texts, BERT might struggle to extract suf-
+ficient contextual information from short Instagram captions. In addition, Log
+Reg, when combined with TF-IDF features, effectively captures word-level n-
+grams that may be more effective at identifying sponsored content patterns. In
+contrast, BERT uses subword tokenisation, which could result in less efficient
+pattern recognition. Given GPT-3.5’s superior performance, particularly in de-
+tecting undisclosed sponsored posts, we selected it as the model for generating
+explanations to augment the annotation task.
+3.3 Generating Explanations with GPT
+We investigated various prompts for all publicly accessible models in the GPT-3
+series and GPT-4. We observed that even the smallest GPT-3 model, Ada (text-
+ada-001 ), performed well in sponsored content detection and identifying relevant
+words. Nevertheless, we noted significant performance improvements for larger
+models especially when employing chain-of-thought reasoning and generating
+explanations – particularly for more ambiguous posts. Consequently, we focused
+on GPT-3.5-turbo (the default ChatGPT version as of March 2022) and GPT-4.
+We found a conservative bias for both models, with a strong preference for
+predicting the not sponsored class or other negative labels over positive ones.
+This phenomenon appeared consistent across all Davinci- and Curie-based mod-
+els, with the inverse being true for smaller Babbage and Ada-based models. We
+employed several prompt engineering techniques to mitigate this bias and cali-
+brate the labels. First, we instructed the model to highlight relevant words and
+generate explanations before classifying a post. This chain-of-thought prompting
+approach, inspired by [28], significantly reduced bias and improved prediction
+interpretability. Second, we used few-shot learning to refine explanation cali-
+bration, address known failure modes, and further alleviate bias [3]. Third, we
+experimented with different label phrasings, such as “Likely (not) sponsored”,
+to enhance the model’s ability to make less confident predictions. Finally, we
+directly instructed the model to favour positive labels in cases of uncertainty,
+aiming to identify a higher proportion of undisclosed ads. We will make the final
+prompt publicly available.
+6 No Author Given
+Upon qualitative evaluation, we found that GPT-4 outperformed GPT-3.5-
+turbo in explanation quality and classification accuracy, especially for ambigu-
+ous posts. However, for this study, we chose GPT-3.5-turbo (henceforth just
+”GPT”) due to its advantages in speed, cost, and public accessibility. Following
+this approach, we obtained the most important words in a post and generated
+explanations for why a post may or may not be sponsored to assist annotators.
+The following is an illustrative example of such an explanation; we omitted the
+actual brand name to ensure the post’s anonymity:
+Key indicators: ’@BRAND’, ’LTK’.
+The post promotes a fashion brand and features a discount code,
+indicating a partnership. Additionally, it features a @shop.LTK
+link, a platform for paid partnerships.
+3.4 Annotation Task
+We conducted a user study to evaluate how explanations can help detect spon-
+sored content. The study consisted of an annotation task in which participants
+labelled 200 Instagram posts from our dataset as Sponsored or Non-Sponsored.
+Our objective with the task was two-fold: i) Analyse explanations as a tool for
+improving annotation as a resource for ML tasks – i.e., to measure their impact
+on data quality, which, in turn, allows for the development of better models and
+evaluation methods. ii) Simulate regulatory compliance with sponsored content
+disclosure regulations – i.e., how a decision-maker would flag posts as sponsored.
+We framed the annotation as a text classification task in which annotators
+had to determine whether an Instagram post was sponsored based on its cap-
+tion. Generally, we followed the data annotation pipeline proposed by Hovy and
+Lavid (2010) [15]. We instructed annotators to consider a post as sponsored if
+the influencer who posted it was, directly or indirectly, promoting products or
+services for which they received any benefits in return. These benefits included
+direct financial compensation and non-monetary benefits, such as free products
+or services. Self-promotion was an exception: we considered posts promoting the
+influencer’s content (e.g. YouTube channel or podcast) as non-sponsored. How-
+ever, posts advertising merchandise with their brand or directly selling other
+goods still fall under sponsored content. We explained these guidelines to each
+annotator and provided examples of sponsored and non-sponsored posts to help
+reinforce the definitions.
+Eleven volunteer annotators with varying levels of expertise participated in
+the study. All were between 20 and 30 years old, active social media users, and
+familiar with influencer marketing practices on Instagram. Additionally, all an-
+notators had or were working towards a high-education degree in a European
+university. Demographically, the participants came from various countries. We
+did not specifically collect country-level information, but at a continent level,
+participants were from Asia, Europe, and South America. While all participants
+were fluent in English, none were native speakers. We split annotators into three
+groups according to their level of expertise in annotating sponsored content on
+Using Model Explanations to Improve Labelling of Sponsored Content 7
+social media. The first group, with three people, consisted of participants with
+no prior experience. The second group included four participants who previously
+participated in annotation tasks but had no formal training. The third group,
+consisting of four legal experts, had specific legal expertise in social media ad-
+vertisement regulations and had participated in annotations before. We further
+split the subgroups of annotators into two groups regarding annotation setup:
+one without explanations, in which annotators only had access to the captions,
+and one augmented with the generated explanations. One group of four annota-
+tors labelled the posts in both setups: with and without explanations.
+To select the 200 Instagram posts for our user study, we turned to a sample
+previously labelled by law students in another annotation task. Although the
+labels and definitions used in that task were different from ours, they provided
+a way to identify which posts were undisclosed ads, allowing us to include them
+in our study. We selected posts published between 2017 and 2020 by 66 different
+influencers based in the United States, with 62% being mega-influencers and 38%
+being micro-influencers. We also included 15% of posts with clear ad disclosures
+(such as the hashtag #ad) as an attention check to ensure annotators noticed
+the disclosures. Based on the labels from the previous annotations, we estimate
+that 65% (130) of the posts were likely sponsored, and 50% (100) were likely
+undisclosed ads.
+We set up the study using the open-source annotation platform Doccano3.
+Each participant had a unique project, and although all annotators labelled the
+same 200 posts, the labels were not shared, and each participant only had access
+to their annotations. The annotation interface displayed the caption of the post
+and the two possible labels (Sponsored and Non-Sponsored) as buttons. After the
+post caption, we added the generated explanations with an explicit delimitation.
+Accurately measuring inter-annotator agreement is crucial in data annotation
+tasks, as it allows us to estimate the annotated data’s quality and the decision-
+making process’s reliability. To assess inter-annotator agreement in our study,
+we used three main metrics: Krippendorff’s Alpha, absolute agreement, and ac-
+curacy in detecting disclosed posts. Krippendorff’s Alpha measures the degree
+of agreement among annotators, considering the level of agreement expected by
+chance alone [19,14]. The absolute agreement indicates the proportion of anno-
+tations where all annotators agreed on the same label. We also used accuracy in
+detecting disclosed posts as an attention check mechanism, as it measures an-
+notators’ ability to identify posts with clear disclosures as sponsored correctly.
+This metric is crucial because disclosures may not always be clearly visible in
+posts [20]. We also analysed additional metrics in some experiments, which we
+will introduce when describing the specific experiments.
+3.5 User-experience Survey
+After the annotation, we conducted a user-experience survey to gather feed-
+back from annotators on their experience using the explanations to assist with
+3 https://github.com/doccano/doccano
+8 No Author Given
+their decision-making process. The survey consisted of seven questions, with five
+closed-ended and two open-ended questions. We describe all questions and the
+rating scale used below:
+– “On a scale of 1 (not helpful) to 5 (extremely helpful), how helpful were the
+explanations in identifying undisclosed advertisement partnerships?”
+– “How accurate, from 1 (extremely inaccurate) to 5 (extremely accurate), did
+you think the explanations were?”
+– “How often, from 1 (0% of the time) to 5 (100% of the time), did you agree
+with the AI explanations?”
+– “Did the AI explanations help you feel more confident in your decision-
+making (Yes/No)?”
+– “What aspects of the AI explanations were most helpful for your decision-
+making process?” This was a multiple-choice question with five options: Rea-
+soning, Identifying specific words or phrases, Clear examples, Other (specify),
+and None.
+– “In what ways did the AI explanations improve your understanding of what
+constitutes an undisclosed advertisement partnership?” Open-ended.
+– “How could the AI explanations be further improved to better support your
+decision-making process? Did you find anything noticeable you want us to
+know?” Open-ended.
+The participants who received annotations augmented with explanations all
+completed the questionnaires, and we ensured their anonymity by not collecting
+any identifiable information. Additionally, we made it clear to the annotators
+that their responses would be entirely anonymous.
+4 Experimental Results
+This section presents the main findings from the annotation task and user-
+experience survey. Table 2 shows the metrics comparing the agreement between
+annotators who labelled the posts with and without explanations. Seven par-
+ticipants were in the No Explanations group (one with no experience, four
+with some experience, and two legal experts). The With Explanations group
+had eight people (three with no experience, three with some experience, and two
+legal experts) – one participant from the no experience group and three from
+some experience labelled in both settings. In addition to the metrics presented
+in subsection 3.4, we also evaluate the proportion of posts with at most one
+disagreement (1-Disag) and show the percentage of posts labelled as sponsored
+(Sponsored ). The last two rows present the absolute and relative (normalised)
+differences in metrics between the groups. Positive differences represent an in-
+crease in agreement.
+Using explanations to enhance the annotations resulted in a consistent im-
+provement across all inter-annotator agreement metrics. Specifically, there was a
+15.65% increase in α and a 17.20% increase in absolute agreement. However, the
+Using Model Explanations to Improve Labelling of Sponsored Content 9
+Table 2. Agreement metrics comparing annotations with and without explanations.
+α Abs 1-Disag Acc Sponsored
+No Explanations 54.98 46.50 69.50 90.62 54.64
+With Explanations 63.58 54.50 75.00 93.75 59.81
+Absolute Diff 8.61 8.00 5.50 3.12 5.17
+Relative Diff 15.65 17.20 7.91 3.45 9.46
+final values were still relatively low, typical of annotations in complex decision-
+making tasks [9,10,25]. Accuracy in detecting disclosed posts also improved by
+3.45%, but the final result was not perfect, suggesting that annotators still fail to
+identify all disclosure hashtags, even with explanations highlighting them. Addi-
+tionally, the proportion of posts labelled as sponsored increased by 9.46%, indi-
+cating that explanations led annotators to identify more as sponsored. We also
+analyse the agreement between all pairs of annotators to measure the variation
+in agreement and ensure the reliability of the annotations. Table 3 summarises
+the pairwise agreement metrics. The Min and Max columns represent the lowest
+and highest agreement metric values among the annotator pairs, respectively,
+and the ± column denotes the standard deviation.
+Table 3. Pairwise agreement comparing annotations with and without explanations.
+Min Abs Max Abs ± Min α Max α ±
+No Explanations 66.00 88.50 5.28 30.81 77.04 10.83
+With Explanations 73.00 90.00 4.49 43.13 79.53 10.00
+Absolute Diff 7.00 1.50 -0.79 12.31 2.48 -0.82
+Relative Diff 10.61 1.69 -14.98 39.96 3.22 -7.62
+The pairwise metrics reveal considerable variation in the agreement between
+annotator pairs. For the No Explanation group, there was a substantial differ-
+ence of 46.23 in α between the pair with the lowest and highest agreement, with
+a standard deviation of 10.83. This difference indicates that some annotators
+are significantly less reliable than others. However, the group With Explana-
+tions showed a consistent improvement, with less variation between pairs. The
+standard deviation decreased by 14.98% for absolute agreement and 7.62% for
+α, indicating more reliable annotations. Even the lowest-agreement pair showed
+significant improvement, with an increase of 10.61% for absolute agreement and
+39.96% for α. These results suggest that using explanations to augment anno-
+tations led to a higher inter-annotator agreement overall, improved consistency
+between pairs, and even increased agreement among the least reliable annotators.
+To better understand the impact of augmenting the annotation with explana-
+tions, we also investigated how it affects different subgroups of annotators. We
+10 No Author Given
+divided the subgroups into three categories: legal experts, non-experts, and an-
+notators who labelled in both settings (with and without explanations) – this
+category does not include legal experts. Table 4 presents the agreement metrics
+for each category in both subgroups of annotators, as well as the relative differ-
+ence between them. # indicates the number of participants within the subgroup.
+For clarity, we did not report the proportion of annotations with at most one
+disagreement because some subgroups contain a single pair of annotators.
+Table 4. Agreement metrics for different subgroups of annotators, aggregated accord-
+ing to their expertise level.
+α Abs Acc Sponsored #
+Legal Experts No Explanations 52.11 76.50 96.88 57.25 2
+Legal Experts With Explanations 61.94 83.00 100.00 66.50 2
+Relative Diff 18.86 8.50 3.23 16.16 -
+Non-Experts No Explanations 62.04 62.50 93.75 53.60 5
+Non-Experts With Explanations 64.89 59.50 93.75 57.58 6
+Relative Diff 4.59 -4.80 0.00 7.43 -
+Labelled Both No Explanations 66.74 70.00 96.88 53.12 4
+Labelled Both With Explanations 73.15 74.50 100.00 54.50 4
+Relative Diff 9.60 6.43 3.23 2.59 -
+The annotations augmented with explanations showed consistent improve-
+ments in all subgroups, except for absolute agreement within the non-expert
+group. Legal experts had the most significant improvement in α (18.86%). Ad-
+ditionally, the proportion of posts labelled as sponsored increased significantly
+(16.16%), with the subgroup Legal Experts With Explanations having the high-
+est value (66.5%). This subgroup and Labelled Both With Explanations achieved
+100% accuracy in detecting disclosed sponsored posts. Labelled Both also had
+the highest α in both settings. It is important to note that higher agreement
+does not necessarily imply higher accuracy in correctly identifying sponsored
+posts. The metrics measure how much a subgroup of annotators agree on the
+definitions they are applying to label; they could be wrongly applying a con-
+sistent judgment. Therefore, we cannot reliably conclude which group had the
+best performance. Moreover, the high agreement within the subgroup Labelled
+Both could be influenced by the annotators labelling the same posts twice in
+both settings. Although we randomly shuffled the posts to reduce the likeli-
+hood of memorisation, repetition could still affect agreement. Nevertheless, the
+high proportion of sponsored content and absolute agreement for the annotation
+within Legal Experts With Explanations indicate that experts agree that there
+are more sponsored posts than non-experts tend to identify.
+While explanations can improve the quality of annotations, they may also in-
+troduce bias by influencing annotators to rely on specific cues presented in the ex-
+planation; annotator bias is a common challenge in text annotation tasks [1,11].
