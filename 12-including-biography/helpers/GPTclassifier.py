@@ -2,7 +2,7 @@ import pandas as pd
 import openai
 import time
 
-def gptclassifier(df,messages,completions,timer_frequency=5):
+def gptclassifier(df,base_messages,completions,timer_frequency=5):
 
     i=0    
     for txt in df.loc[:,["caption","username"]].iterrows():
@@ -12,6 +12,7 @@ def gptclassifier(df,messages,completions,timer_frequency=5):
         if i%timer_frequency==2:
             print(f"Counter at {i}")
 
+        messages = base_messages.copy()
         messages.append({"role": "user", "content": f"Post: '{txt[1]['caption']}'. User: @{txt[1]['username']}"})
         # try except to prevent openAIs limits
         try:
