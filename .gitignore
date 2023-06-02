@@ -4,3 +4,4 @@ annotated_sample.pkl
 results.pkl
 create
 data
+__pycache__/
