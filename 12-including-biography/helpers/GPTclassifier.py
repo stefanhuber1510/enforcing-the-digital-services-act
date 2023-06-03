@@ -34,18 +34,18 @@ def gptclassifier(df,base_messages,completions,timer_frequency=5):
                 response = openai.ChatCompletion.create(model="gpt-3.5-turbo",
                                                     messages=messages)
                 completions.append(response["choices"][0]["message"]["content"])
-    completions_as_boolean = [True if ((response.endswith("rue"))
-                                   or (response.endswith("rue."))
-                                   or (response.endswith("True/Uncertain.")))
-                          else False if ((response.endswith("alse"))
-                                         or (response.endswith("alse."))
-                                         or (response.endswith("False/Uncertain.")))
-                          else response for response in completions]
-    four_labels = ["True." if ((response.endswith("rue"))
-                                   or (response.endswith("rue.")))
-                          else "True/Uncertain." if ((response.endswith("True/Uncertain.")) or (response.endswith("True/Uncertain.")))
-                          else "False." if ((response.endswith("alse"))
-                                         or (response.endswith("alse.")))
-                          else "False/Uncertain." if ((response.endswith("False/Uncertain.")) or (response.endswith("False/Uncertain.")))
-                          else response for response in completions]
-    return completions, completions_as_boolean, four_labels
+    four_labels = [True if ((response.endswith("otentially sponsored"))
+                                   or (response.endswith("otentially sponsored."))
+                                   or (response.endswith("otentially Sponsored.")))
+                          else False if ((response.endswith("ly not sponsored"))
+                                         or (response.endswith("ly not sponsored."))
+                                         or (response.endswith("leave blank as well")))
+                          else 'Self adv' if ((response.endswith("lf advertisement"))
+                                         or (response.endswith("lf advertisement."))
+                                         or (response.endswith("leave blank as well")))
+                          else 'Ambiguous' if ((response.endswith("biguous"))
+                                         or (response.endswith("biguous."))
+                                         or (response.endswith("leave blank as well")))
+                          else response for response in results[0]]
+    
+    return completions, four_labels
