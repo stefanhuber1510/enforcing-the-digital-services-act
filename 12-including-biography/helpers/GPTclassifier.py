@@ -34,6 +34,7 @@ def gptclassifier(df,base_messages,completions,timer_frequency=5):
                 response = openai.ChatCompletion.create(model="gpt-3.5-turbo",
                                                     messages=messages)
                 completions.append(response["choices"][0]["message"]["content"])
+    #this is bs
     four_labels = [True if ((response.endswith("otentially sponsored"))
                                    or (response.endswith("otentially sponsored."))
                                    or (response.endswith("otentially Sponsored.")))
@@ -49,3 +50,19 @@ def gptclassifier(df,base_messages,completions,timer_frequency=5):
                           else response for response in results[0]]
     
     return completions, four_labels
+
+def generate_labels(completions):
+    # might make potential endings as dictionary variable, later
+    return [True if ((response.endswith("otentially sponsored"))
+                                   or (response.endswith("otentially sponsored."))
+                                   or (response.endswith("otentially Sponsored.")))
+                          else False if ((response.endswith("ly not sponsored"))
+                                         or (response.endswith("ly not sponsored."))
+                                         or (response.endswith("leave blank as well")))
+                          else 'Self adv' if ((response.endswith("lf advertisement"))
+                                         or (response.endswith("lf advertisement."))
+                                         or (response.endswith("leave blank as well")))
+                          else 'Ambiguous' if ((response.endswith("biguous"))
+                                         or (response.endswith("biguous."))
+                                         or (response.endswith("leave blank as well")))
+                          else response for response in completions]
