@@ -1,3 +1,3 @@
 # Most recent progress update:
-I destroyed all private keys in this repo before setting public.
+I invalidated all private keys in this repository before setting public.
 Don't even try.
